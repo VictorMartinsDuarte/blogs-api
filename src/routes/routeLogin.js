@@ -1,7 +1,11 @@
 const express = require('express');
+const { loginValidation } = require('../middlewares/middleLogin');
+const { getUser } = require('../controllers/controllerLogin');
 
-const loginRouter = express.Router();
+const login = express.Router();
 
-loginRouter.post('/', );
+login.post('/', loginValidation, getUser);
 
-module.exports = loginRouter;
+module.exports = {
+  login,
+};

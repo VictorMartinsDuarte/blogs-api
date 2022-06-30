@@ -1,10 +1,14 @@
-const { User } = require('../database/models/user');
+const User = require('../database/models/user');
+const { tokenJWT } = require('../utils/tokenJWT');
 
 const getUser = async ({ email, password }) => {
   const foundUser = await User.findOne({ where: { email, password } });
-  if (!foundUser) {
-    return { }
-  }
+  const token = tokenJWT(email);
+
+  if (!foundUser) return undefined;
+  return token;
 };
 
-module.exports = getUser;
+module.exports = {
+  getUser,
+};
