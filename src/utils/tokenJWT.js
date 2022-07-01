@@ -10,4 +10,6 @@ const tokenJWT = async (email) => {
   return token;
 };
 
-module.exports = tokenJWT;
+module.exports = {
+  tokenJWT,
+};
