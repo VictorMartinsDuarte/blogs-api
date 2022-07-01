@@ -6,6 +6,8 @@ const Category = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     name: DataTypes.STRING,
+  }, {
+    timestamps: false,
   });
 
   return Category;
