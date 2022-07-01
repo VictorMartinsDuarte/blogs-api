@@ -11,5 +11,6 @@ const tokenJWT = async (email) => {
 };
 
 module.exports = {
+  JWT_CONFIG,
   tokenJWT,
 };
