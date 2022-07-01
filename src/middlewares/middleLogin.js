@@ -1,4 +1,4 @@
-const loginValidation = (req, res, next) => {
+const loginValid = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'Some required fields are missing' });
@@ -7,5 +7,5 @@ const loginValidation = (req, res, next) => {
 };
 
 module.exports = {
-  loginValidation,
+  loginValid,
 };
