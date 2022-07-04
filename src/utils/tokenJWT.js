@@ -10,7 +10,13 @@ const tokenJWT = async (email) => {
   return token;
 };
 
+const decodedToken = async (token) => {
+  const decoded = jwt.decode(token, process.env.JWT_SECRET, JWT_CONFIG.algorithm);
+  return decoded;
+};
+
 module.exports = {
   JWT_CONFIG,
   tokenJWT,
+  decodedToken,
 };
