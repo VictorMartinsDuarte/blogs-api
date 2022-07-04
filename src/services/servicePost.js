@@ -66,11 +66,12 @@ const updateById = async (title, content, id, userId) => {
 };
 
 const deletePost = async (id, userId) => {
-  const post = await getById(id);
-  if (userId !== post.user.id) {
-    return undefined;
+  const post = await BlogPost.findByPk(id);
+  if (userId === post.dataValues.userId) {
+    return BlogPost.destroy({ where: { id } });
   }
-  await BlogPost.delete({ where: { id } });
+  const error = { status: 401, message: 'Unauthorized user' };
+  throw error;
 };
 
 module.exports = {
