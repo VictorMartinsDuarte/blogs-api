@@ -25,8 +25,23 @@ const getById = async (req, res) => {
   return res.status(200).json(postById);
 };
 
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  console.log(req.user);
+  const token = req.headers.authorization;
+ 
+  const decoded = await decodedToken(token);
+  const user = await servicePost.findPost(decoded.data);
+
+  const updatedPost = await servicePost.updateById(title, content, id, user.id);
+  if (!updatedPost) return res.status(401).json({ message: 'Unauthorized user' });
+  return res.status(200).json(updatedPost);
+};
+
 module.exports = {
   createPost,
   getAll,
   getById,
+  updateById,
 };

@@ -1,13 +1,15 @@
 const express = require('express');
 const { tokenExists, tokenValid } = require('../middlewares/tokenValidation');
-const { postValid } = require('../middlewares/middlePost');
-const { createPost, getAll, getById } = require('../controllers/controllerPost');
+const { titleContentValid, categoryIdsValid } = require('../middlewares/middlePost');
+const { createPost, getAll, getById, updateById } = require('../controllers/controllerPost');
 
 const post = express.Router();
 
-post.post('/', tokenExists, tokenValid, postValid, createPost);
+post.post('/', tokenExists, tokenValid,
+  titleContentValid, categoryIdsValid, createPost);
 post.get('/', tokenExists, tokenValid, getAll);
 post.get('/:id', tokenExists, tokenValid, getById);
+post.put('/:id', tokenExists, tokenValid, titleContentValid, updateById);
 
 module.exports = {
   post,
