@@ -66,11 +66,11 @@ const updateById = async (title, content, id, userId) => {
 };
 
 const deletePost = async (id, userId) => {
-  if (userId === id) {
-    await BlogPost.delete({ where: { id } });
-    return true;
+  const post = await getById(id);
+  if (userId !== post.user.id) {
+    return undefined;
   }
-  return undefined;
+  await BlogPost.delete({ where: { id } });
 };
 
 module.exports = {

@@ -39,8 +39,8 @@ const deletePost = async (req, res) => {
   const blogPostExists = await servicePost.getById(id);
   
   if (!blogPostExists) return res.status(404).json({ message: 'Post does not exist' });
-  if (deletedPost) return res.status(204).end();
-  return res.status(401).json({ message: 'Unauthorized user' });
+  if (!deletedPost) return res.status(401).json({ message: 'Unauthorized user' });
+  return res.status(204).end();
 };
 
 module.exports = {
