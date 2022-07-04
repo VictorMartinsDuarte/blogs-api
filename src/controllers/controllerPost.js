@@ -1,14 +1,11 @@
 const servicePost = require('../services/servicePost');
-const { decodedToken } = require('../utils/tokenJWT');
+const { getUserId } = require('../utils/getUserId');
 
 const createPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
-  const token = req.headers.authorization;
- 
-  const decoded = await decodedToken(token);
-  const user = await servicePost.findPost(decoded.data);
+  const userId = await getUserId(req.headers.authorization);
 
-  const newPost = await servicePost.createPost(title, content, categoryIds, user.id);
+  const newPost = await servicePost.createPost(title, content, categoryIds, userId);
   if (!newPost) return res.status(400).json({ message: '"categoryIds" not found' });
   return res.status(201).json(newPost);
 };
@@ -28,15 +25,22 @@ const getById = async (req, res) => {
 const updateById = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
-  console.log(req.user);
-  const token = req.headers.authorization;
- 
-  const decoded = await decodedToken(token);
-  const user = await servicePost.findPost(decoded.data);
+  const userId = await getUserId(req.headers.authorization);
 
-  const updatedPost = await servicePost.updateById(title, content, id, user.id);
+  const updatedPost = await servicePost.updateById(title, content, id, userId);
   if (!updatedPost) return res.status(401).json({ message: 'Unauthorized user' });
   return res.status(200).json(updatedPost);
+};
+
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const userId = await getUserId(req.headers.authorization);
+  const deletedPost = await servicePost.deletePost(id, userId);
+  const blogPostExists = await servicePost.getById(id);
+  
+  if (!blogPostExists) return res.status(404).json({ message: 'Post does not exist' });
+  if (deletedPost) return res.status(204).end();
+  return res.status(401).json({ message: 'Unauthorized user' });
 };
 
 module.exports = {
@@ -44,4 +48,5 @@ module.exports = {
   getAll,
   getById,
   updateById,
+  deletePost,
 };
