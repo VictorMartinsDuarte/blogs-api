@@ -70,9 +70,8 @@ const deletePost = async (id, userId) => {
   if (userId === post.dataValues.userId) {
     return BlogPost.destroy({ where: { id } });
   }
-  // const error = { status: 401, message: 'Unauthorized user' };
-  // throw error;
-  return undefined;
+  const error = { status: 401, message: 'Unauthorized user' };
+  throw error;
 };
 
 module.exports = {

@@ -11,7 +11,7 @@ user.post('/', loginValid, displayNameValid,
   emailValid, passwordValid, createUser);
 user.get('/', tokenExists, tokenValid, getAllUsers);
 user.get('/:id', tokenExists, tokenValid, getUserById);
-user.delete('/:id', tokenExists, tokenValid, deleteUser);
+user.delete('/me', tokenExists, tokenValid, deleteUser);
 
 module.exports = {
   user,
