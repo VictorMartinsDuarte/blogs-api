@@ -33,17 +33,18 @@ const updateById = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
-  try {
+  // try {
     const { id } = req.params;
     const userId = await getUserId(req.headers.authorization);
     const blogPostExists = await servicePost.getById(id);
     if (!blogPostExists) return res.status(404).json({ message: 'Post does not exist' });
     
-    await servicePost.deletePost(id, userId);
+    const deletedPost = await servicePost.deletePost(id, userId);
+    if (!deletedPost) return res.status(401).json({ message: 'Unauthorized user' });
     return res.status(204).end(); 
-  } catch (err) {
-    return res.status(err.status).json({ message: err.message });
-  }
+  // } catch (err) {
+  //   return res.status(err.status).json({ message: err.message });
+  // }
 };
 
 module.exports = {

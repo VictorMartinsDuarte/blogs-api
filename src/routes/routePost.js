@@ -11,7 +11,7 @@ post.post('/', tokenExists, tokenValid,
 post.get('/', tokenExists, tokenValid, getAll);
 post.get('/:id', tokenExists, tokenValid, getById);
 post.put('/:id', tokenExists, tokenValid, titleContentValid, updateById);
-post.delete('/:id', tokenExists, tokenValid, deletePost);
+post.delete('/me', tokenExists, tokenValid, deletePost);
 
 module.exports = {
   post,

@@ -1,4 +1,5 @@
 const serviceUser = require('../services/serviceUser');
+const { getUserId } = require('../utils/getUserId');
 
 const createUser = async (req, res) => {
   const userToken = await serviceUser.createUser(req.body);
@@ -19,8 +20,16 @@ const getUserById = async (req, res) => {
   return res.status(200).json(foundUser);
 };
 
+const deleteUser = async (req, res) => {
+  const userId = await getUserId(req.headers.authorization);
+  console.log(req.user);
+  await serviceUser.deleteUser(userId);
+  return res.status(204).end();
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };

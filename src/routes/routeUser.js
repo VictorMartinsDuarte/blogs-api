@@ -1,6 +1,7 @@
 const express = require('express');
 const { loginValid } = require('../middlewares/middleLogin');
-const { createUser, getAllUsers, getUserById } = require('../controllers/controllerUser');
+const { createUser, getAllUsers,
+  getUserById, deleteUser } = require('../controllers/controllerUser');
 const { displayNameValid, emailValid, passwordValid } = require('../middlewares/middleUser');
 const { tokenExists, tokenValid } = require('../middlewares/tokenValidation');
 
@@ -10,6 +11,7 @@ user.post('/', loginValid, displayNameValid,
   emailValid, passwordValid, createUser);
 user.get('/', tokenExists, tokenValid, getAllUsers);
 user.get('/:id', tokenExists, tokenValid, getUserById);
+user.delete('/:id', tokenExists, tokenValid, deleteUser);
 
 module.exports = {
   user,
